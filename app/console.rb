@@ -1,97 +1,92 @@
 class Console
-  HELLO_MESSAGE = <<~HELLO_MESSAGE.freeze
-    Hello, we are RubyG bank!
-    - If you want to create account - press `create`
-    - If you want to load account - press `load`
-    - If you want to exit - press `exit`
-  HELLO_MESSAGE
+  COMMANDS = {
+    create: 'create',
+    load: 'load',
+    accept: 'yes',
+    exit: 'exit',
+    show_cards: 'SC',
+    card_create: 'CC',
+    card_destroy: 'DC',
+    card_put_money: 'PM',
+    card_withdraw_money: 'WM',
+    card_send_money: 'SM',
+    delete_account: 'DA'
+  }.freeze
 
   def initialize(account)
     @account = account
   end
 
   def hello
-    puts HELLO_MESSAGE
-
-    command = gets.chomp
-
-    case command
-    when 'create'
-      @account.create
-    when 'load'
-      @account.load
-    else
-      exit
+    output(I18n.t('hello_message'))
+    case user_input
+    when COMMANDS[:create] then @account.create
+    when COMMANDS[:load] then @account.load
+    else exit_console
     end
   end
 
   def main_menu
-    puts main_menu_message
-
+    output(I18n.t('main_menu_message', name: @account.current_account.name))
     loop do
-      command = gets.chomp
-      case command
-      when 'SC'
-        @account.show_cards
-      when 'CC'
-        @account.card.create
-      when 'DC'
-        @account.card.destroy
-      when 'PM'
-        @account.card.put_money
-      when 'WM'
-        @account.card.withdraw_money
-      when 'SM'
-        @account.card.send_money
-      when 'DA'
-        @account.destroy
-        exit
-      when 'exit'
-        exit
-      else
-        puts "Wrong command. Try again!\n"
+      case user_input
+      when COMMANDS[:show_cards] then @account.show_cards
+      when COMMANDS[:card_create] then @account.card.create
+      when COMMANDS[:card_destroy] then @account.card.destroy
+      when COMMANDS[:card_put_money] then @account.card.put_money
+      when COMMANDS[:card_withdraw_money] then @account.card.withdraw_money
+      when COMMANDS[:card_send_money] then @account.card.send_money
+      when COMMANDS[:delete_account] then @account.destroy
+      when COMMANDS[:exit] then exit_console
+      else output(ERROR_PHRASES[:user_not_exists])
       end
     end
   end
 
   def name_input
-    puts 'Enter your name'
-    read_from_console
+    output(I18n.t('ask_phrases.name'))
+    user_input
   end
 
   def age_input
-    puts 'Enter your age'
-    read_from_console.to_i
+    output(I18n.t('ask_phrases.age'))
+    user_input.to_i
   end
 
   def login_input
-    puts 'Enter your login'
-    read_from_console
+    output(I18n.t('ask_phrases.login'))
+    user_input
   end
 
   def password_input
-    puts 'Enter your password'
-    read_from_console
+    output(I18n.t('ask_phrases.password'))
+    user_input
+  end
+
+  def ask_create_the_first_account
+    output(I18n.t('common_phrases.create_first_account'))
+    yes? ? @account.create : hello
+  end
+
+  def output(message)
+    puts message
+  end
+
+  def show_cards(cards)
+    cards.each { |card| output(I18n.t('common_phrases.create_first_account', number: card.number, type: card.type)) }
+  end
+
+  def yes?
+    user_input == COMMANDS[:accept]
+  end
+
+  def exit_console
+    exit
   end
 
   private
 
-  def read_from_console
+  def user_input
     gets.chomp
-  end
-
-  def main_menu_message
-    <<~MAIN_MENU_MESSAGE
-      \nWelcome, #{@account.current_account.name}
-      If you want to:
-      - show all cards - press SC
-      - create card - press CC
-      - destroy card - press DC
-      - put money on card - press PM
-      - withdraw money on card - press WM
-      - send money to another card  - press SM
-      - destroy account - press `DA`
-      - exit from account - press `exit`
-    MAIN_MENU_MESSAGE
   end
 end

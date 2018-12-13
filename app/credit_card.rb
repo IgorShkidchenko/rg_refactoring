@@ -1,28 +1,21 @@
 class CreditCard
-  VALID_TYPES = %w[
-    usual
-    capitalist
-    virtual
-  ]
+  VALID_TYPES = {
+    usual: 'usual',
+    capitalist: 'capitalist',
+    virtual: 'virtual'
+  }.freeze
 
   def initialize(type)
     case type
-    when 'usual'
-      @card = CreditCards::Usual.new
-    when 'capitalist'
-      @card = CreditCards::Capitalist.new
-    when 'virtual'
-      @card = CreditCards::Virtual.new
+    when VALID_TYPES[:usual] then @card = CreditCards::Usual.new
+    when VALID_TYPES[:capitalist] then @card = CreditCards::Capitalist.new
+    when VALID_TYPES[:virtual] then @card = CreditCards::Virtual.new
     end
   end
 
   def create_card
     loop do
-      puts 'You could create one of 3 card types'
-      puts '- Usual card. 2% tax on card INCOME. 20$ tax on SENDING money from this card. 5% tax on WITHDRAWING money. For creation this card - press `usual`'
-      puts '- Capitalist card. 10$ tax on card INCOME. 10% tax on SENDING money from this card. 4$ tax on WITHDRAWING money. For creation this card - press `capitalist`'
-      puts '- Virtual card. 1$ tax on card INCOME. 1$ tax on SENDING money from this card. 12% tax on WITHDRAWING money. For creation this card - press `virtual`'
-      puts '- For exit - press `exit`'
+      @console.output
 
       ct = gets.chomp
       if ct == 'usual' || ct == 'capitalist' || ct == 'virtual'
