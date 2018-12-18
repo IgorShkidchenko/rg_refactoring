@@ -1,3 +1,7 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/5913748f14e5b6a9cbb1/maintainability)](https://codeclimate.com/github/IgorShkidchenko/rg_refactoring/maintainability)
+
+
+
 # Refactor Me
 
 ## What is it?

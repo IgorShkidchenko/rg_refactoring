@@ -618,6 +618,7 @@ RSpec.describe Console do
   describe '#put_money' do
     context 'without cards' do
       it 'shows message about not active cards' do
+        allow(card_console).to receive(:update_db)
         card_console.instance_variable_set(:@account, real_account)
         expect do
           card_console.send(:exist_cards_action, 'PM')
@@ -632,6 +633,7 @@ RSpec.describe Console do
 
       context 'with correct outout' do
         it do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
           allow(card_console).to receive_message_chain(:gets, :chomp) { 'exit' }
@@ -646,6 +648,7 @@ RSpec.describe Console do
 
       context 'when exit if first gets is exit' do
         it do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
           expect(card_console).to receive_message_chain(:gets, :chomp) { 'exit' }
@@ -655,16 +658,19 @@ RSpec.describe Console do
 
       context 'with incorrect input of card number' do
         before do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
         end
 
         it do
+          allow(card_console).to receive(:update_db)
           allow(card_console).to receive_message_chain(:gets, :chomp).and_return(fake_cards.length + 1, 'exit')
           expect { card_console.send(:exist_cards_action, 'PM') }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
         end
 
         it do
+          allow(card_console).to receive(:update_db)
           allow(card_console).to receive_message_chain(:gets, :chomp).and_return(-1, 'exit')
           expect { card_console.send(:exist_cards_action, 'PM') }.to output(/#{ERROR_PHRASES[:wrong_number]}/).to_stdout
         end
@@ -691,6 +697,7 @@ RSpec.describe Console do
           let(:commands) { [chosen_card_number, incorrect_money_amount] }
 
           it do
+            allow(card_console).to receive(:update_db)
             expect do
               card_console.send(:exist_cards_action, 'PM')
             end.to output(/#{COMMON_PHRASES[:input_amount]}/).to_stdout
@@ -701,6 +708,7 @@ RSpec.describe Console do
           let(:commands) { [chosen_card_number, incorrect_money_amount] }
 
           it do
+            allow(card_console).to receive(:update_db)
             expect do
               card_console.send(:exist_cards_action, 'PM')
             end.to output(/#{ERROR_PHRASES[:correct_amount]}/).to_stdout
@@ -712,6 +720,7 @@ RSpec.describe Console do
             let(:commands) { [chosen_card_number, correct_money_amount_lower_than_tax] }
 
             it do
+              allow(card_console).to receive(:update_db)
               expect do
                 card_console.send(:exist_cards_action, 'PM')
               end.to output(/#{ERROR_PHRASES[:tax_higher]}/).to_stdout
@@ -763,6 +772,7 @@ RSpec.describe Console do
   describe '#withdraw_money' do
     context 'without cards' do
       it 'shows message about not active cards' do
+        allow(card_console).to receive(:update_db)
         card_console.instance_variable_set(:@account, real_account)
         expect do
           card_console.send(:exist_cards_action, 'WM')
@@ -777,6 +787,7 @@ RSpec.describe Console do
 
       context 'with correct outout' do
         it do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
           allow(card_console).to receive_message_chain(:gets, :chomp) { 'exit' }
@@ -795,6 +806,7 @@ RSpec.describe Console do
 
       context 'when exit if first gets is exit' do
         it do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
           expect(card_console).to receive_message_chain(:gets, :chomp) { 'exit' }
@@ -804,11 +816,13 @@ RSpec.describe Console do
 
       context 'with incorrect input of card number' do
         before do
+          allow(card_console).to receive(:update_db)
           allow(real_account).to receive(:cards) { fake_cards }
           card_console.instance_variable_set(:@account, real_account)
         end
 
         it do
+          allow(card_console).to receive(:update_db)
           allow(card_console).to receive_message_chain(:gets, :chomp).and_return(fake_cards.length + 1, 'exit')
 
           expect do
@@ -817,6 +831,7 @@ RSpec.describe Console do
         end
 
         it do
+          allow(card_console).to receive(:update_db)
           allow(card_console).to receive_message_chain(:gets, :chomp).and_return(-1, 'exit')
 
           expect do
@@ -845,6 +860,7 @@ RSpec.describe Console do
           let(:commands) { [chosen_card_number, incorrect_money_amount] }
 
           it do
+            allow(card_console).to receive(:update_db)
 
             expect do
               card_console.send(:exist_cards_action, 'WM')
