@@ -1,3 +1,4 @@
 require_relative 'autoload'
 
-Account.new.hello
+# binding.pry
+Console.new.hello
