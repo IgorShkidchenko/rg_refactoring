@@ -58,6 +58,8 @@ class Account
     @errors << I18n.t('account_validation_phrases.name.first_letter') unless first_letter_uppcase?
   end
 
+  # rubocop:disable Metrics/AbcSize
+
   def validate_login
     @errors << I18n.t('account_validation_phrases.login.present') if @login.empty?
     @errors << I18n.t('account_validation_phrases.login.longer') if @login.size < VALID_RANGE[:login].min
@@ -70,6 +72,8 @@ class Account
     @errors << I18n.t('account_validation_phrases.password.longer') if @password.size < VALID_RANGE[:password].min
     @errors << I18n.t('account_validation_phrases.password.shorter') if @password.size > VALID_RANGE[:password].max
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   def validate_age
     @errors << I18n.t('account_validation_phrases.age.length') unless (VALID_RANGE[:age]).cover?(@age)
