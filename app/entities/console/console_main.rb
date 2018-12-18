@@ -32,7 +32,7 @@ class Console < ConsoleAssistant
 
     loop do
       @account = Account.find_in_db(take_account_info_from_user(login: '', password: ''), loaded_db)
-      @account.nil? ? output(I18n.t('error_phrases.user_not_exists')) : break
+      @account ? break : output(I18n.t('error_phrases.user_not_exists'))
     end
   end
 

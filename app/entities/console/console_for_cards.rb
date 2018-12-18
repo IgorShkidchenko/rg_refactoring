@@ -20,7 +20,7 @@ class ConsoleForCards < ConsoleAssistant
   def destroy_card_menu
     output(I18n.t('common_phrases.if_you_want_to_delete'))
     chosen_card = select_card
-    return if chosen_card.nil?
+    return unless chosen_card
 
     output(I18n.t('common_phrases.destroy_card', card: chosen_card.number))
     return unless yes?
@@ -29,8 +29,8 @@ class ConsoleForCards < ConsoleAssistant
   end
 
   def put_money_menu(command)
-    operation = validate_operation_data(command)
-    return if operation.nil?
+    operation = take_operation_data_from_user(command)
+    return unless operation
 
     card = operation[:chosen_card]
     amount = operation[:amount]
@@ -42,8 +42,8 @@ class ConsoleForCards < ConsoleAssistant
   end
 
   def withdraw_money_menu(command)
-    operation = validate_operation_data(command)
-    return if operation.nil?
+    operation = take_operation_data_from_user(command)
+    return unless operation
 
     card = operation[:chosen_card]
     amount = operation[:amount]
@@ -55,14 +55,14 @@ class ConsoleForCards < ConsoleAssistant
   end
 
   def send_money_menu(command)
-    operation = validate_operation_data(command)
-    return if operation.nil?
+    operation = take_operation_data_from_user(command)
+    return unless operation
 
     sender_card = operation[:chosen_card]
     amount = operation[:amount]
     output(I18n.t('common_phrases.recipient_card'))
     recipient_card = validate_recipiet_card
-    return if recipient_card.nil?
+    return unless recipient_card
     return unless validate_send_operation_taxes(sender_card, recipient_card, amount)
 
     send_money_operation(sender_card, recipient_card, amount)
@@ -89,18 +89,18 @@ class ConsoleForCards < ConsoleAssistant
     return output(I18n.t('error_phrases.invalid_number')) if input_number.size != CreditCardBase::CARD_NUMBER_SIZE
 
     finded_card = @account.cards.detect { |card| card.number == input_number }
-    finded_card.nil? ? output(I18n.t('error_phrases.not_exist_card_number', number: input_number)) : finded_card
+    finded_card || output(I18n.t('error_phrases.not_exist_card_number', number: input_number))
   end
 
-  def validate_operation_data(command)
+  def take_operation_data_from_user(command)
     action = COMMANDS.key(command)
     output(I18n.t("operations.choose_card.#{action}"))
     chosen_card = select_card
-    return if chosen_card.nil?
+    return unless chosen_card
 
     output(I18n.t("operations.amount.#{action}"))
     amount = validate_amount
-    return if amount.nil?
+    return unless amount
 
     { chosen_card: chosen_card, amount: amount }
   end
