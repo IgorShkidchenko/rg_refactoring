@@ -15,6 +15,18 @@ class CreditCardBase
     @number = generate_card_number
   end
 
+  def withdraw_tax(amount)
+    calculate_tax(amount, withdraw_percent_tax, withdraw_fixed_tax)
+  end
+
+  def put_tax(amount)
+    calculate_tax(amount, put_percent_tax, put_fixed_tax)
+  end
+
+  def sender_tax(amount)
+    calculate_tax(amount, sender_percent_tax, sender_fixed_tax)
+  end
+
   def self.find_type(input)
     VALID_TYPES.value?(input)
   end
@@ -45,8 +57,32 @@ class CreditCardBase
 
   private
 
-  def calculate_tax(amount:, percent_tax: 0, fixed_tax: 0)
+  def calculate_tax(amount, percent_tax, fixed_tax)
     (amount / 100) * percent_tax + fixed_tax
+  end
+
+  def withdraw_percent_tax
+    0
+  end
+
+  def withdraw_fixed_tax
+    0
+  end
+
+  def put_percent_tax
+    0
+  end
+
+  def put_fixed_tax
+    0
+  end
+
+  def sender_percent_tax
+    0
+  end
+
+  def sender_fixed_tax
+    0
   end
 
   def generate_card_number

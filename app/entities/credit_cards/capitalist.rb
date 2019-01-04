@@ -13,15 +13,15 @@ class Capitalist < CreditCardBase
     super()
   end
 
-  def withdraw_tax(amount)
-    calculate_tax(amount: amount, percent_tax: TAXES[:withdraw])
+  def withdraw_percent_tax
+    TAXES[:withdraw]
   end
 
-  def put_tax(amount)
-    calculate_tax(amount: amount, fixed_tax: TAXES[:put])
+  def put_fixed_tax
+    TAXES[:put]
   end
 
-  def sender_tax(amount)
-    calculate_tax(amount: amount, percent_tax: TAXES[:sender])
+  def sender_percent_tax
+    TAXES[:sender]
   end
 end
