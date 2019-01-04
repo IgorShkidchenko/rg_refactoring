@@ -40,8 +40,8 @@ class Account
   end
 
   def self.find_in_db(user_data_inputs, loaded_db)
-    loaded_db.detect do |db_acc|
-      db_acc.login == user_data_inputs[:login] && db_acc.password == user_data_inputs[:password]
+    loaded_db.detect do |account_from_db|
+      account_from_db.login == user_data_inputs[:login] && account_from_db.password == user_data_inputs[:password]
     end
   end
 

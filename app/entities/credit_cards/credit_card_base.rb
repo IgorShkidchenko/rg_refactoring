@@ -15,18 +15,6 @@ class CreditCardBase
     @number = generate_card_number
   end
 
-  def withdraw_tax
-    raise NotImplementedError
-  end
-
-  def put_tax
-    raise NotImplementedError
-  end
-
-  def sender_tax
-    raise NotImplementedError
-  end
-
   def self.find_type(input)
     VALID_TYPES.value?(input)
   end
@@ -56,6 +44,10 @@ class CreditCardBase
   end
 
   private
+
+  def calculate_tax(amount:, percent_tax: 0, fixed_tax: 0)
+    (amount / 100) * percent_tax + fixed_tax
+  end
 
   def generate_card_number
     Array.new(CARD_NUMBER_SIZE) { rand(VALID_CARD_NUMBERS) }.join

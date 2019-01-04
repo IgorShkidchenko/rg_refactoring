@@ -1,7 +1,7 @@
 class Usual < CreditCardBase
   TAXES = {
-    put: 0.02,
-    withdraw: 0.05,
+    put: 2,
+    withdraw: 5,
     sender: 20
   }.freeze
 
@@ -13,15 +13,15 @@ class Usual < CreditCardBase
     super()
   end
 
-  def withdraw_tax(amount)
-    amount * TAXES[:withdraw]
-  end
-
   def put_tax(amount)
-    amount * TAXES[:put]
+    calculate_tax(amount: amount, percent_tax: TAXES[:put])
   end
 
-  def sender_tax(*)
-    TAXES[:sender]
+  def withdraw_tax(amount)
+    calculate_tax(amount: amount, percent_tax: TAXES[:withdraw])
+  end
+
+  def sender_tax(amount)
+    calculate_tax(amount: amount, fixed_tax: TAXES[:sender])
   end
 end

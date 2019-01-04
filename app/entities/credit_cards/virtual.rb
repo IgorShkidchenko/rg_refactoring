@@ -1,7 +1,7 @@
 class Virtual < CreditCardBase
   TAXES = {
     put: 1,
-    withdraw: 0.88,
+    withdraw: 12,
     sender: 1
   }.freeze
 
@@ -14,14 +14,14 @@ class Virtual < CreditCardBase
   end
 
   def withdraw_tax(amount)
-    amount * TAXES[:withdraw]
+    calculate_tax(amount: amount, percent_tax: TAXES[:withdraw])
   end
 
-  def put_tax(*)
-    TAXES[:put]
+  def put_tax(amount)
+    calculate_tax(amount: amount, fixed_tax: TAXES[:put])
   end
 
-  def sender_tax(*)
-    TAXES[:sender]
+  def sender_tax(amount)
+    calculate_tax(amount: amount, fixed_tax: TAXES[:sender])
   end
 end
