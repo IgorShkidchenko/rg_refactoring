@@ -92,7 +92,7 @@ class ConsoleForCards < ConsoleAssistant
   end
 
   def take_operation_data_from_user(command)
-    action = COMMANDS.key(command)
+    action = COMMANDS[:card].key(command)
     output("operations.choose_card.#{action}")
     return unless chosen_card = select_card
 
