@@ -101,14 +101,12 @@ PLATFORMS
 DEPENDENCIES
   fasterer
   i18n
-  pronto
   pronto-circleci
   pronto-rubocop
   pry
   rspec (~> 3.8)
   rubocop
   rubocop-rspec
-  rugged (= 0.28.2)
   simplecov
   simplecov-lcov
 

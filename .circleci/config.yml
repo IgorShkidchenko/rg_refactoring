@@ -23,6 +23,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            gem install rugged -v '0.28.2
+          command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           paths:
