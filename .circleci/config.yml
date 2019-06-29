@@ -23,20 +23,11 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            gem install rugged -v '0.28.2
-      - run:
-          name: install dependencies
-          command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      - run:
-          name: pronto
-          command: |
-            bundle exec pronto-circleci
 
       - run:
           name: run tests

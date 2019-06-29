@@ -5,8 +5,6 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'i18n'
-gem 'pronto-circleci'
-gem 'pronto-rubocop'
 
 group :development do
   gem 'fasterer'
