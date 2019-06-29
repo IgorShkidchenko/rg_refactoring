@@ -30,6 +30,11 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - run:
+          name: pronto
+          command: |
+            bundle exec pronto-circleci
+
+      - run:
           name: run tests
           command: |
             mkdir /tmp/test-results
